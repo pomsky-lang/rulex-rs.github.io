@@ -21,7 +21,7 @@ Rulex can be used with a CLI or a Rust macro. See
 [installation instructions](/docs/get-started/quick-start).
 
 You should also enable Unicode support in your regex engine if it isn't supported by default.
-[See instructions](./enabling-unicode-support).
+[See instructions](../enable-unicode).
 
 ## Summary
 

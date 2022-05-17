@@ -26,7 +26,8 @@ Boundaries match a position in a string without consuming any code points. There
 A word character is anything that matches {{<rulex>}}[word]{{</rulex>}}. If the regex engine is
 Unicode-aware, this is {{<rulex>}}[Alphabetic Mark Decimal_Number Connector_Punctuation]{{</rulex>}}.
 For some regex engines, Unicode-aware matching has to be enabled first
-([see here](../enabling-unicode-support.md)).
+([see here](../../get-started/enable-unicode)).
 
 In JavaScript, {{<rulex>}}%{{</rulex>}} and {{<rulex>}}!%{{</rulex>}} is _never_ Unicode-aware, even
-when the `u` flag is set. [See here](../../enable-unicode-support#javascript) for more information.
+when the `u` flag is set. [See here](../../get-started/enable-unicode#javascript) for more
+information.

@@ -53,7 +53,7 @@ put them into the same quotes:
 ['$_' 'a'-'z' 'A'-'Z']
 ```
 
-This is equivalent to {{<rulex>}}('$' | '\_' | ['a'-'z' 'A'-'Z']){{</rulex>}}, but it's shorter
+This is equivalent to {{<rulex>}}('$' | '_' | ['a'-'z' 'A'-'Z']){{</rulex>}}, but it's shorter
 and may be more efficient.
 
 ### Character ranges and Unicode
@@ -140,7 +140,7 @@ the most useful ones are
 - `Uppercase`, `Lowercase`
 - `Emoji`
 
-You can see the full list of Unicode properties [here](./unicode-properties.md).
+You can see the full list of Unicode properties [here](../../reference/unicode-properties).
 
 ## Negation
 
@@ -167,7 +167,7 @@ Unicode properties, they must appear in square brackets.
 
 Note that `word`, `digit` and `space` only match ASCII characters, if the regex engine isn't
 configured to be Unicode-aware. How to enable Unicode support is
-[described here](../enabling-unicode-support.md).
+[described here](../../get-started/enable-unicode).
 
 There are two more shorthands: {{<rulex>}}[codepoint]{{</rulex>}} (or {{<rulex>}}[cp]{{</rulex>}}
 for short), matches any Unicode code point; {{<rulex>}}[.]{{</rulex>}} matches any Unicode
@@ -251,6 +251,6 @@ Another solution is to use negation to exclude the underscore from the `word` sh
 
 How does this work? Since the character class is negated, the part within the square bracket has
 to match anything _except_ the things we want: Letters and digits. Since
-{{<rulex>}}!word{{</rulex>}} also doesn't match underscores, we add {{<rulex>}}'\_'{{</rulex>}}
+{{<rulex>}}!word{{</rulex>}} also doesn't match underscores, we add {{<rulex>}}'_'{{</rulex>}}
 to get the desired result. This "double negation trick" can be used to remove some things from
 a shorthand.
