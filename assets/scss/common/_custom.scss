@@ -1,0 +1,184 @@
+/** Custom styles */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+@mixin light-and-dark {
+  @content;
+
+  [data-dark-mode] {
+    @content;
+  }
+}
+
+:root {
+  --bs-font-sans-serif: 'Work Sans', -apple-system, blinkmacsystemfont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --bs-font-monospace: 'JetBrains Mono', sfmono-regular, menlo, monaco, consolas, 'Liberation Mono', 'Courier New', monospace;
+  --bs-body-font-family: 'Work Sans', -apple-system, blinkmacsystemfont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-size: 0.88rem;
+  font-family: var(--bs-font-monospace);
+
+  @media (min-width: 768px) {
+    font-size: 0.95rem;
+  }
+}
+
+.alert {
+  font-family: var(--bs-font-sans-serif);
+  font-size: 0.95rem;
+}
+
+h6,
+.h6,
+h5,
+.h5,
+h4,
+.h4,
+h3,
+.h3,
+h2,
+.h2,
+h1,
+.h1,
+.navbar-brand {
+  font-weight: 600;
+}
+
+.front-logo {
+  margin: 1.25rem 0 2.5rem;
+  width: 150px;
+  filter: drop-shadow(0 20px 15px #7774);
+}
+
+main > nav {
+  h3 {
+    color: #b53636;
+
+    [data-dark-mode] & {
+      color: #f4b73d;
+    }
+  }
+
+  #TableOfContents {
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 2rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      display: block;
+      border-radius: 3px / 5px;
+      width: 3px;
+      height: 100%;
+      background-color: #b53636;
+
+      [data-dark-mode] & {
+        background-color: #f4b73d;
+      }
+    }
+  }
+}
+
+.header-bar {
+  border-image-source: linear-gradient(90deg, #b53636, #f4b73d 50%, #d32e9d);
+}
+
+@include light-and-dark {
+  body .page-links li:not(:first-child) {
+    border: none;
+  }
+
+  body .btn-primary {
+    &,
+    &:visited {
+      background-color: #f4b73d;
+      border-color: #f4b73d;
+      color: black;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: #f0a818;
+      border-color: #f0a818;
+    }
+  }
+}
+
+body .btn-toggle-nav a.active,
+body .offcanvas .nav-link.active,
+body .offcanvas .banner .nav a.active,
+.banner .nav body .offcanvas a.active {
+  color: #b53636;
+}
+
+[data-dark-mode] body .btn-toggle-nav a.active,
+[data-dark-mode] body .offcanvas .nav-link.active,
+[data-dark-mode] body .offcanvas .banner .nav a.active,
+.banner .nav [data-dark-mode] body .offcanvas a.active {
+  color: #f4b73d;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+td,
+th,
+li {
+  > code.hljs {
+    display: inline;
+    padding: 0.25rem 0.5rem !important;
+  }
+}
+
+///////// HLJS
+
+.hljs-keyword {
+  color: #bf3300;
+  font-weight: 600;
+
+  [data-dark-mode] & {
+    color: #f27447;
+  }
+}
+
+body .hljs-string {
+  color: green;
+
+  [data-dark-mode] & {
+    color: #b8cc52;
+  }
+}
+
+.hljs-title,
+.hljs-built_in,
+.hljs-section {
+  color: #004d90;
+
+  [data-dark-mode] & {
+    color: #ffbb63;
+  }
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #99008c;
+
+  [data-dark-mode] & {
+    color: #ffa6f6;
+  }
+}
