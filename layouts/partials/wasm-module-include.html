@@ -1,0 +1,28 @@
+<script type="module">
+  // https://github.com/rustwasm/wasm-bindgen/blob/main/examples/without-a-bundler/index.html
+
+  import init, { compile } from '/play/rulex_play.js'
+
+  async function initialize() {
+    await init()
+
+    window.compileRulex = (input, options) => {
+      const [success, output, help, s_prefix, s_content, s_suffix] = compile(
+        input,
+        options?.flavor ?? 'js'
+      )
+      if (success) {
+        return output
+      } else {
+        return {
+          error: output,
+          help,
+          spans: [s_prefix, s_content, s_suffix],
+        }
+      }
+    }
+    window.dispatchEvent(new Event('rulex-initialized'))
+  }
+
+  initialize()
+</script>

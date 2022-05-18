@@ -22,6 +22,7 @@ kbd,
 samp {
   font-size: 0.88rem;
   font-family: var(--bs-font-monospace);
+  font-variant-ligatures: none;
 
   @media (min-width: 768px) {
     font-size: 0.95rem;
@@ -180,5 +181,146 @@ body .hljs-string {
 
   [data-dark-mode] & {
     color: #ffa6f6;
+  }
+}
+
+.example-heading {
+  margin-top: 0;
+}
+
+#examples {
+  margin: 0 0 2rem 0;
+
+  &.hidden * {
+    display: none;
+  }
+
+  .example-tabs {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+
+    @media (min-width: 992px) {
+      flex-direction: row;
+      margin-bottom: 0;
+    }
+
+    button.example-tab {
+      background: transparent;
+      border: none;
+      border-left: 3px solid transparent;
+      padding: 0.25rem 0.5rem;
+      font-weight: 500 !important;
+      color: inherit;
+      font: inherit;
+      transition: border-bottom-color .5s;
+      text-align: left;
+
+      &.active {
+        font-weight: 600 !important;
+        border-color: #b53636;
+
+        [data-dark-mode] & {
+          border-color: #ffbb63
+        }
+      }
+
+      @media (min-width: 992px) {
+        padding: 0.5rem;
+        margin: 0 0.5rem;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+      }
+    }
+  }
+
+  .example-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem 0;
+    align-items: stretch;
+    width: 100%;
+    border-radius: 0.4rem;
+    overflow: hidden;
+
+    @media (min-width: 992px) {
+      flex-direction: row;
+    }
+
+    pre {
+      margin: 0;
+      border-radius: 0;
+
+      @media (min-width: 992px) {
+        width: 0;
+        flex-grow: 1;
+      }
+
+      code {
+        border-radius: 0;
+        padding: 2.3rem 1.5rem !important;
+        font-size: 1.15rem;
+        min-height: 100%;
+      }
+
+      .btn-copy {
+        display: none;
+      }
+
+
+      @media (min-width: 992px) {
+        &:first-child::after {
+          content: "";
+          display: block;
+          position: absolute;
+          right: 0;
+          top: 32px;
+          width: 40px;
+          height: 40px;
+          transform: scaleX(0.67) rotate(45deg);
+          border: 8px solid #cac0ae;
+          border-width: 8px 8px 0 0;
+
+          [data-dark-mode] & {
+            border-color: #353b41
+          }
+        }
+      }
+
+      code::after {
+        content: "rulex";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        background-color: #eae7e1;
+        font: 90% var(--bs-font-sans-serif);
+        padding: 0.3rem 0.6rem;
+        color: #7c7c7c;
+        opacity: 0;
+        transition: opacity .3s;
+
+        [data-dark-mode] & {
+          background-color: #161616;
+          color: #bbb;
+        }
+      }
+
+      &:hover code::after {
+        opacity: 1;
+      }
+
+      &:first-child code::after {
+        content: "rulex";
+        left: 0;
+        border-top-right-radius: 0.4rem;
+      }
+
+      &:last-child code::after {
+        content: "regexp";
+        right: 0;
+        border-top-left-radius: 0.4rem;
+      }
+    }
   }
 }

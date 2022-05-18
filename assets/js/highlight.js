@@ -97,6 +97,10 @@ hljs.registerLanguage('regexp', function () {
         begin: '\\|',
       },
       {
+        className: 'punctuation',
+        begin: '[\\^$]',
+      },
+      {
         className: 'keyword',
         begin: '[+*?]+',
       },
@@ -126,7 +130,7 @@ hljs.registerLanguage('regexp', function () {
       },
       {
         className: 'punctuation',
-        begin: '\\[',
+        begin: /\[\^?/,
         end: '\\]',
         contains: [
           P_BRACED,
@@ -153,7 +157,7 @@ hljs.registerLanguage('regexp', function () {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-  document
-    .querySelectorAll('code[class|=language]')
-    .forEach((block) => hljs.highlightBlock(block))
+  document.querySelectorAll('code[class|=language]').forEach((block) => hljs.highlightBlock(block))
 })
+
+window.hljs = hljs
