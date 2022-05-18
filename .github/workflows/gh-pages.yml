@@ -19,6 +19,15 @@ jobs:
         with:
           version: 'latest'
 
+      - name: ⚡ Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Build rulex WASM
         working-directory: ./rulex-play
         run: wasm-pack build --target web
