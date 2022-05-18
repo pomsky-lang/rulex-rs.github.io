@@ -39,8 +39,8 @@ jobs:
 
       - name: 📦 Build production website
         run: |
-          ls -R static/
           npm run build -- -v
+          ls -R public/
 
       - name: 🚀 Deploy
         uses: peaceiris/actions-gh-pages@v3
