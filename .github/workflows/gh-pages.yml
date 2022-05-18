@@ -38,7 +38,9 @@ jobs:
         run: npm ci
 
       - name: 📦 Build production website
-        run: npm run build -- -v
+        run: |
+          ls -R static/
+          npm run build -- -v
 
       - name: 🚀 Deploy
         uses: peaceiris/actions-gh-pages@v3
