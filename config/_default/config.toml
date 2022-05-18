@@ -127,4 +127,4 @@ target = "data"
 
 [[module.mounts]]
 source = "rulex-play/pkg"
-target = "static/play"
+target = "static"
