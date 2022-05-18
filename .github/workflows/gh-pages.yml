@@ -32,8 +32,7 @@ jobs:
         working-directory: ./rulex-play
         run: |
           wasm-pack build --target web
-          ls -halR
-          mv rulex-play/pkg/ static/play/
+          mv pkg/ ../static/play/
 
       - name: 🚚 Install dependencies
         run: npm ci
