@@ -1,0 +1,15 @@
+{
+  "name": "rulex-play",
+  "collaborators": [
+    "Ludwig Stecher <ludwig.stecher@gmx.de>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "rulex_play_bg.wasm",
+    "rulex_play.js",
+    "rulex_play.d.ts"
+  ],
+  "module": "rulex_play.js",
+  "types": "rulex_play.d.ts",
+  "sideEffects": false
+}
