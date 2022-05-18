@@ -32,15 +32,13 @@ jobs:
         working-directory: ./rulex-play
         run: |
           wasm-pack build --target web
-          mv pkg/ ../static/play/
+          mv pkg/ ../static/wasm/
 
       - name: 🚚 Install dependencies
         run: npm ci
 
       - name: 📦 Build production website
-        run: |
-          npm run build -- -v
-          ls -R public/
+        run: npm run build -- -v
 
       - name: 🚀 Deploy
         uses: peaceiris/actions-gh-pages@v3

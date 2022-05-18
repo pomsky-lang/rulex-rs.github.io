@@ -60,9 +60,6 @@
     "stylelint": "^14.8",
     "stylelint-config-standard-scss": "^3.0"
   },
-  "dependencies": {
-    "rulex-play": "file:rulex-play/pkg"
-  },
   "otherDependencies": {
     "hugo": "0.96.0"
   }
