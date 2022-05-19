@@ -1,0 +1,158 @@
+<div class="playground">
+  <div class="pg-input">
+    <textarea id="rulex-input"></textarea>
+    <pre class="rulex-echo"><code id="rulex-echo" class="language-rulex"></code></pre>
+  </div>
+  <pre class="pg-output"><code id="regexp-output" class="language-regexp"></code></pre>
+</div>
+
+{{ partial "wasm-module-include.html" . }}
+<script type="module">
+  const rulexCode = document.getElementById('rulex-input')
+  const echo = document.getElementById('rulex-echo')
+  const regexpCode = document.getElementById('regexp-output')
+
+  const params = new URLSearchParams(window.location.search)
+
+  rulexCode.value = params.get('share') ?? localStorage.getItem('playgroundText') ?? "<< 'example'"
+  echo.textContent = rulexCode.value
+  rulexCode.style.height = echo.clientHeight + 50 + 'px'
+  if (window.hljs) {
+    hljs.highlightElement(echo)
+  }
+
+  function recompile() {
+    echo.textContent = rulexCode.value
+    hljs.highlightElement(echo)
+    rulexCode.style.height = echo.clientHeight + 50 + 'px'
+
+    localStorage.setItem('playgroundText', rulexCode.value)
+    const result = compileRulex(rulexCode.value)
+
+    if (typeof result === 'string') {
+      regexpCode.textContent = result
+
+      hljs.highlightElement(regexpCode)
+    } else {
+      regexpCode.innerHTML = `<strong class="error">${escapeHtml(result.error)}</strong>`
+      if (result.help != null) {
+        regexpCode.innerHTML += `<br /><br /><strong class="help">Help:</strong> ${escapeHtml(
+          result.help
+        )}`
+      }
+      if (result.spans != null) {
+        regexpCode.innerHTML += `<br /><br />${escapeHtml(result.spans[0])}<strong class="error">${
+          result.spans[1] === '' ? '&lt;error here>' : escapeHtml(result.spans[1])
+        }</strong>${escapeHtml(result.spans[2])}`
+      }
+    }
+  }
+
+  function escapeHtml(html) {
+    return html.replace(/[<"&]/g, (c) => {
+      return c === '<' ? '&lt;' : c === '"' ? '&quot;' : c === '&' ? '&amp;' : c
+    })
+  }
+
+  function initPlayground() {
+    recompile()
+
+    rulexCode.addEventListener('input', recompile)
+    rulexCode.addEventListener('keydown', (e) => {
+      if (e.key === 's' && e.ctrlKey) {
+        window.location.search = `?share=${encodeURIComponent(rulexCode.value)}`
+        e.preventDefault()
+        return false
+      } else if (e.key === 'Tab') {
+        e.preventDefault()
+        if (!e.shiftKey && rulexCode.selectionStart === rulexCode.selectionEnd) {
+          insertTab()
+        } else {
+          changeIndentation(e.shiftKey ? -2 : 2)
+        }
+        recompile()
+        return false
+      } else if (e.key === 'Enter') {
+        e.preventDefault()
+        insertEnter(e.shiftKey)
+        recompile()
+        return false
+      }
+    })
+  }
+
+  function insertTab() {
+    /** @type string */
+    const text = rulexCode.value
+    const pos = rulexCode.selectionStart
+    const before = text.substring(0, pos)
+    const after = text.substring(pos)
+
+    const lineLength = before.length - before.search(/.*?$/)
+    const tabWidth = 2 - (lineLength % 2)
+    rulexCode.value = before + '  '.substr(0, tabWidth) + after
+    rulexCode.selectionStart = rulexCode.selectionEnd = before.length + tabWidth
+  }
+
+  function changeIndentation(n) {
+    const text = rulexCode.value
+    const c1 = rulexCode.selectionStart
+    const c2 = rulexCode.selectionEnd
+
+    const before = text.substring(0, c1)
+    const lineBeforeLength = before.length - before.search(/.*?$/)
+    const wsAfterLength = text.substring(c2).search(/[^ ]|$/)
+
+    const after = text.substring(c2)
+    const afterNoWs = text.substring(c2 + wsAfterLength)
+
+    let firstIndentDelta = 0
+    let lastIndent = 0
+    const selectionLines = text
+      .substring(c1 - lineBeforeLength, c2 + wsAfterLength)
+      .split('\n')
+      .map((/** @type string */ line, i) => {
+        const currentIndent = line.search(/[^ ]|$/)
+        const newIndent = Math.max(0, currentIndent + n)
+        const delta = newIndent - currentIndent
+        if (i === 0) {
+          firstIndentDelta = delta
+        }
+        lastIndent = newIndent
+        return delta > 0 ? '  '.substring(0, delta) + line : line.substring(-delta)
+      })
+      .join('\n')
+
+    rulexCode.value = text.substring(0, c1 - lineBeforeLength) + selectionLines + afterNoWs
+    rulexCode.selectionStart = Math.max(0, c1 + firstIndentDelta)
+    rulexCode.selectionEnd =
+      rulexCode.value.length - Math.min(after.length, afterNoWs.length + lastIndent)
+  }
+
+  function insertEnter(shiftKey) {
+    const text = rulexCode.value
+
+    if (shiftKey) {
+      const rest = text.substr(rulexCode.selectionEnd)
+      const lineEnd = rest.search(/\n|$/)
+      rulexCode.selectionStart = rulexCode.selectionEnd = rulexCode.selectionEnd + lineEnd
+    }
+
+    const c1 = rulexCode.selectionStart
+    const c2 = rulexCode.selectionEnd
+
+    const before = text.substring(0, c1)
+    const lineBeforeLength = before.length - before.search(/.*?$/)
+    const lineBefore = before.substring(before.length - lineBeforeLength)
+    const indent = lineBefore.search(/[^ ]|$/)
+
+    rulexCode.value = text.substring(0, c1) + '\n' + ' '.repeat(indent) + text.substring(c2)
+    rulexCode.selectionStart = rulexCode.selectionEnd = c1 + indent + 1
+  }
+
+  if (window.compileRulex) {
+    initPlayground()
+  } else {
+    window.addEventListener('rulex-initialized', initPlayground)
+  }
+</script>

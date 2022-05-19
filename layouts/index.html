@@ -10,16 +10,23 @@
       <p class="lead">{{ .Params.lead | safeHTML }}</p>
       <a
         class="btn btn-primary btn-lg px-4 mb-2"
-        href="/docs/{{ if .Site.Params.options.docsVersioning }}{{ .Site.Params.docsVersion }}/{{ end }}get-started/introduction/"
+        href="/docs/get-started/introduction/"
         role="button"
       >
         Get Started
+      </a>
+      <a
+        class="btn btn-lg px-4 mb-2"
+        href="/playground/"
+        role="button"
+      >
+        Playground
       </a>
       <p class="meta"><a href="https://github.com/rulex-rs/rulex">GitHub v0.3</a></p>
     </div>
   </div>
 </section>
-{{ end }} 
+{{ end }}
 
 {{ define "sidebar-prefooter" }}
 <section class="section section-sm">

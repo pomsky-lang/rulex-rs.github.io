@@ -91,23 +91,35 @@ main > nav {
   border-image-source: linear-gradient(90deg, #b53636, #f4b73d 50%, #d32e9d);
 }
 
+body .btn {
+  color: black;
+
+  [data-dark-mode] & {
+    color: #ddd;
+  }
+}
+
 @include light-and-dark {
   body .page-links li:not(:first-child) {
     border: none;
   }
 
-  body .btn-primary {
-    &,
-    &:visited {
-      background-color: #f4b73d;
-      border-color: #f4b73d;
-      color: black;
-    }
+  .section .btn {
+    border: 2px solid #f4b73d;
 
-    &:hover,
-    &:focus {
-      background-color: #f0a818;
-      border-color: #f0a818;
+    &.btn-primary {
+      &,
+      &:visited {
+        background-color: #f4b73d;
+        border-color: #f4b73d;
+        color: black;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: #f0a818;
+        border-color: #f0a818;
+      }
     }
   }
 }
@@ -321,6 +333,121 @@ body .hljs-string {
         right: 0;
         border-top-left-radius: 0.4rem;
       }
+    }
+  }
+}
+
+.playground {
+  position: fixed;
+  left: 0;
+  top: 4rem;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background-color: white;
+
+  [data-dark-mode] & {
+    background-color: #24292d;
+  }
+
+  .pg-input, .pg-output {
+    width: 0;
+    flex-grow: 1;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pg-input {
+    position: relative;
+    display: block;
+    overflow: auto;
+
+    #rulex-input {
+      box-sizing: border-box;
+      background-color: transparent;
+      color: inherit;
+      font: 1.15rem var(--bs-font-monospace);
+      font-variant-ligatures: none;
+      font-weight: 400;
+      border: none;
+      margin: 0;
+      padding: 1rem 1rem 0 1rem;
+      outline: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      min-height: 100%;
+      line-height: 1.4rem;
+      color: #777;
+      caret-color: black;
+      resize: none;
+
+      [data-dark-mode] & {
+        caret-color: white;
+      }
+
+      &::selection {
+        background-color: #7cb0ff;
+
+        [data-dark-mode] & {
+          background-color: #00129a;
+        }
+      }
+    }
+
+    .rulex-echo,
+    .rulex-echo code {
+      font: 1.15rem var(--bs-font-monospace);
+      font-variant-ligatures: none;
+      font-weight: 400;
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: auto;
+      background: transparent;
+      pointer-events: none;
+      margin: 0;
+      padding: 0;
+      line-height: 1.4rem;
+      white-space: pre-wrap;
+    }
+
+    .rulex-echo code {
+      position: static;
+      padding: 1rem 1rem 0 1rem !important;
+    }
+  }
+
+  #regexp-output {
+    box-shadow: inset 1px 0 0 0 #0001;
+    padding: 1rem;
+    flex-grow: 1;
+    font: 1.15rem var(--bs-font-monospace);
+    font-variant-ligatures: none;
+    white-space: pre-wrap;
+  }
+
+  .btn-copy {
+    display: none;
+  }
+
+  .error {
+    color: #c90000;
+
+    [data-dark-mode] & {
+      color: #ff5555;
+    }
+  }
+
+  .help {
+    color: #0046b7;
+
+    [data-dark-mode] & {
+      color: #3381ff;
     }
   }
 }
