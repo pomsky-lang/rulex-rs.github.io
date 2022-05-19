@@ -36,9 +36,10 @@ jobs:
         run: npm ci
 
       - name: 📦 Build production website
-        run: |
-          npm run build -- -v
-          ls public
+        run: npm run build -- -v
+
+      - name: List files in /public
+        run: ls public
 
       - name: 🚀 Deploy
         uses: peaceiris/actions-gh-pages@v3
