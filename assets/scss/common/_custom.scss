@@ -157,29 +157,29 @@ li {
 ///////// HLJS
 
 .hljs-keyword {
-  color: #bf3300;
-  font-weight: 600;
+  color: #bf3300 !important;
+  font-weight: 600 !important;
 
   [data-dark-mode] & {
-    color: #f27447;
+    color: #f27447 !important;
   }
 }
 
 body .hljs-string {
-  color: green;
+  color: green !important;
 
   [data-dark-mode] & {
-    color: #b8cc52;
+    color: #b8cc52 !important;
   }
 }
 
 .hljs-title,
 .hljs-built_in,
 .hljs-section {
-  color: #004d90;
+  color: #004d90 !important;
 
   [data-dark-mode] & {
-    color: #ffbb63;
+    color: #ffbb63 !important;
   }
 }
 
@@ -189,10 +189,10 @@ body .hljs-string {
 .hljs-literal,
 .hljs-type,
 .hljs-params {
-  color: #99008c;
+  color: #99008c !important;
 
   [data-dark-mode] & {
-    color: #ffa6f6;
+    color: #ffa6f6 !important;
   }
 }
 
