@@ -21,6 +21,80 @@
     hljs.highlightElement(echo)
   }
 
+  class TextHistory {
+    constructor(elem) {
+      this.elem = elem
+      this.items = [this.makeItem()]
+      this.index = 0
+      this.lastPush = 0
+      this.lastInput = 0
+    }
+
+    makeItem() {
+      return {
+        t: this.elem.value,
+        s: this.elem.selectionStart,
+        e: this.elem.selectionEnd,
+      }
+    }
+
+    input() {
+      const now = Date.now()
+      if (
+        now - this.lastPush > 4000 ||
+        now - this.lastInput > 800 ||
+        Math.abs(this.elem.value.length - this.items[this.index].t.length) > 25
+      ) {
+        this.commit(now)
+      } else {
+        this.lastInput = now
+      }
+    }
+
+    commit(now) {
+      this.lastPush = this.lastInput = now || Date.now()
+
+      this.items.length = ++this.index
+      this.items.push(this.makeItem())
+
+      if (this.items.length > 100) {
+        this.items.shift()
+        this.index--
+      }
+    }
+
+    commitIfChanged() {
+      if (this.elem.value !== this.items[this.index].t) {
+        this.commit(Date.now())
+      }
+    }
+
+    undo() {
+      this.index--
+      if (this.index < 0) {
+        this.index = 0
+      }
+      this.apply()
+    }
+
+    redo() {
+      this.index++
+      if (this.index >= this.items.length) {
+        this.index = this.items.length - 1
+      }
+      this.apply()
+    }
+
+    apply() {
+      const item = this.items[this.index]
+      this.elem.value = item.t
+      this.elem.selectionStart = item.s
+      this.elem.selectionEnd = item.e
+    }
+  }
+
+  const textHistory = new TextHistory(rulexCode)
+
   function recompile() {
     echo.textContent = rulexCode.value
     hljs.highlightElement(echo)
@@ -57,7 +131,11 @@
   function initPlayground() {
     recompile()
 
-    rulexCode.addEventListener('input', recompile)
+    rulexCode.addEventListener('input', () => {
+      recompile()
+      textHistory.input()
+    })
+
     rulexCode.addEventListener('keydown', (e) => {
       if (e.key === 's' && e.ctrlKey) {
         window.location.search = `?share=${encodeURIComponent(rulexCode.value)}`
@@ -74,7 +152,19 @@
         return false
       } else if (e.key === 'Enter') {
         e.preventDefault()
+        textHistory.commitIfChanged()
         insertEnter(e.shiftKey)
+        recompile()
+        return false
+      } else if (e.key === 'z' && e.ctrlKey) {
+        e.preventDefault()
+        textHistory.undo()
+        recompile()
+        return false
+      } else if (e.key === 'y' && e.ctrlKey) {
+        e.preventDefault()
+        textHistory.redo()
+        textHistory.commit()
         recompile()
         return false
       }

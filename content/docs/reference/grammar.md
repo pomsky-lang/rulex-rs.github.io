@@ -24,7 +24,7 @@ to read the grammar:
 - Verbatim text is wrapped in double quotes ({{<rulex>}}""{{</rulex>}}) or single quotes
   ({{<rulex>}}''{{</rulex>}}).
 
-- A {{<rulex>}}\*{{</rulex>}} after a rule indicates that it repeats 0 or more times.
+- A {{<rulex>}}*{{</rulex>}} after a rule indicates that it repeats 0 or more times.
 
 - A {{<rulex>}}+{{</rulex>}} after a rule indicates that it repeats 1 or more times.
 

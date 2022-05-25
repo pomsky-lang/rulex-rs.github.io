@@ -1,0 +1,100 @@
+.hljs-variable,
+.hljs-template-variable,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition,
+.hljs-attribute,
+.hljs-link {
+  color: #d32e9d;
+}
+
+.hljs-punctuation {
+  color: #353535;
+  font-weight: normal;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion {
+  color: #888;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-section,
+.hljs-name,
+.hljs-type,
+.hljs-strong {
+  font-weight: 600;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+[data-dark-mode] body .hljs {
+  background-color: darken($body-bg-dark, 2.5%);
+  color: #dee2e6;
+}
+
+[data-dark-mode] body .hljs-string,
+[data-dark-mode] body .hljs-variable,
+[data-dark-mode] body .hljs-template-variable,
+[data-dark-mode] body .hljs-symbol,
+[data-dark-mode] body .hljs-bullet,
+[data-dark-mode] body .hljs-addition,
+[data-dark-mode] body .hljs-attribute,
+[data-dark-mode] body .hljs-link {
+  color: #8ed6fb;
+}
+
+[data-dark-mode] body .hljs-punctuation {
+  color: #c4c8cc;
+}
+
+.hljs-keyword {
+  color: #b13001;
+}
+
+body .hljs-string {
+  color: green;
+}
+
+.hljs-title,
+.hljs-built_in,
+.hljs-section {
+  color: #004d90;
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #99008c;
+  font-weight: normal;
+}
+
+[data-dark-mode] body .hljs-keyword {
+  color: #f07e54;
+}
+
+[data-dark-mode] body .hljs-string {
+  color: #b8cc52;
+}
+
+[data-dark-mode] body .hljs-title,
+[data-dark-mode] body .hljs-built_in,
+[data-dark-mode] body .hljs-section {
+  color: #ffbb63;
+}
+
+[data-dark-mode] body .hljs-number,
+[data-dark-mode] body .hljs-meta,
+[data-dark-mode] body .hljs-builtin-name,
+[data-dark-mode] body .hljs-literal,
+[data-dark-mode] body .hljs-type,
+[data-dark-mode] body .hljs-params {
+  color: #ffa6f6;
+}

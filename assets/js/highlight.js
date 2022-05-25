@@ -29,29 +29,29 @@ hljs.registerLanguage('rulex', function (hljs) {
       },
       {
         className: 'keyword',
-        begin: '::?\\s*[+-]?[A-Za-z0-9]*',
+        begin: /::?\s*[+-]?[A-Za-z0-9]*/,
       },
       {
         className: 'literal',
-        begin: 'U\\+[0-9a-fA-F]+|<%|%>|%',
+        begin: /U\+[0-9a-fA-F]+|<%|%>|%/,
       },
       {
         className: 'title',
-        begin: '\\b[A-Za-z0-9_]+\\b|\\.',
+        begin: /\b[A-Za-z_][A-Za-z0-9_]*\b|\./,
       },
       {
         className: 'keyword',
-        begin: '[+*?{}!<>]+',
+        begin: /[+*?{}!<>-]+/,
       },
       {
         className: 'punctuation',
-        begin: '[\\[\\](),\\-=;|]+',
+        begin: /[[\](),=;|]+/,
       },
       {
         className: 'number',
         variants: [
           {
-            begin: '\\b\\d+\\b',
+            begin: /\b\d+\b/,
           },
         ],
       },
@@ -62,30 +62,30 @@ hljs.registerLanguage('rulex', function (hljs) {
 hljs.registerLanguage('regexp', function () {
   const P_SINGLE = {
     className: 'keyword',
-    begin: '\\\\[pP]\\w',
+    begin: /\\[pP]\w/,
   }
   const P_BRACED = {
-    className: 'keyword',
-    begin: '\\\\[pP]\\{',
-    end: '\\}',
+    className: 'literal',
+    begin: /\\[pP]\{/,
+    end: /\}/,
     contains: [
       {
-        className: 'literal',
-        begin: '[\\w\\-&]+',
+        className: 'title',
+        begin: /[\w\-&.]+/,
       },
     ],
   }
   const LITERAL = {
     className: 'literal',
-    begin: '\\\\x\\w\\w|\\\\u\\w\\w\\w\\w|\\\\[xu]\\{[\\w.]+\\}',
+    begin: /\\x\w\w|\\u\w\w\w\w|\\[xu]\{[\w.]+\}/,
   }
   const SPECIAL_ESCAPE = {
     className: 'literal',
-    begin: '\\\\[.?+*^|\\-(){}\\[\\]\\\\]',
+    begin: /\\[.?+*^|\-(){}[\]\\]/,
   }
   const CHAR_ESCAPE = {
-    className: 'char.escape',
-    begin: '\\\\.',
+    className: 'title',
+    begin: /\\./,
   }
 
   return {
@@ -93,25 +93,38 @@ hljs.registerLanguage('regexp', function () {
     aliases: ['regex', 'regexp'],
     contains: [
       {
-        className: 'punctuation',
-        begin: '\\|',
+        // modes, e.g. '(?s)'
+        className: 'keyword',
+        begin: /\(\?\w\)/,
       },
       {
         className: 'punctuation',
-        begin: '[\\^$]',
+        begin: /[|()]/,
+      },
+      {
+        className: 'literal',
+        begin: /[\^$]/,
       },
       {
         className: 'keyword',
-        begin: '[+*?]+',
+        begin: /(?<=(?<!(?<!\\)\\)\()(\?:|\?<\w+>|\?=|\?!|\?<=|\?<!)/,
       },
       {
         className: 'keyword',
-        begin: '\\{',
-        end: '\\}',
+        begin: /[+*?]+/,
+      },
+      {
+        className: 'keyword',
+        begin: /\{/,
+        end: /\}/,
         contains: [
           {
             className: 'number',
-            begin: '\\d+',
+            begin: /\d+/,
+          },
+          {
+            className: 'punctuation',
+            begin: /,/,
           },
         ],
       },
@@ -121,17 +134,9 @@ hljs.registerLanguage('regexp', function () {
       SPECIAL_ESCAPE,
       CHAR_ESCAPE,
       {
-        className: 'keyword',
-        begin: '\\(\\?\\w\\)',
-      },
-      {
         className: 'punctuation',
-        begin: '\\((\\?:|\\?<\\w+>|\\?=|\\?!|\\?<=|\\?<!)?|\\)',
-      },
-      {
-        className: 'punctuation',
-        begin: /\[\^?/,
-        end: '\\]',
+        begin: /\[/,
+        end: /\]/,
         contains: [
           P_BRACED,
           P_SINGLE,
@@ -139,18 +144,30 @@ hljs.registerLanguage('regexp', function () {
           SPECIAL_ESCAPE,
           CHAR_ESCAPE,
           {
-            className: 'punctuation',
-            begin: '(?<![\\[\\\\])-(?!\\])',
+            // dash in a range, e.g. 'a-f'
+            className: 'keyword',
+            begin: /(?<![[\\])-(?!\])/,
           },
           {
+            // leading '^'
+            className: 'keyword',
+            begin: /(?<=\[)\^/,
+          },
+          {
+            // make sure the above isn't triggered after a nested '['
             className: 'string',
-            begin: '[^\\]]',
+            begin: /\[\^*/,
+          },
+          {
+            // everything else
+            className: 'string',
+            begin: /[^\]]\w*/,
           },
         ],
       },
       {
         className: 'string',
-        begin: '.',
+        begin: /.\w*/,
       },
     ],
   }
