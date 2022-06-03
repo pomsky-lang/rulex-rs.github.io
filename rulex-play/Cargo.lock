@@ -137,9 +137,9 @@ dependencies = [
 
 [[package]]
 name = "rulex"
-version = "0.3.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e9f4b579a689404420f59ca5b10bfde04ff70668035e1ae7c39c8702139fbba"
+checksum = "c4e645675536bfc2857d3720ace7a766f00e016b1e6d2e9c183565dc77aa250b"
 dependencies = [
  "miette",
  "nom",
@@ -148,7 +148,7 @@ dependencies = [
 
 [[package]]
 name = "rulex-play"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "console_error_panic_hook",
  "rulex",

@@ -1,4 +1,4 @@
-use rulex::options::{CompileOptions, RegexFlavor};
+use rulex::options::{CompileOptions, ParseOptions, RegexFlavor};
 use rulex::Rulex;
 use wasm_bindgen::prelude::*;
 
@@ -36,12 +36,14 @@ pub fn compile(input: &str, flavor: &str) -> Vec<JsValue> {
         }
     };
 
-    let options = CompileOptions {
-        flavor,
-        ..Default::default()
-    };
-
-    match Rulex::parse_and_compile(input, options) {
+    match Rulex::parse_and_compile(
+        input,
+        ParseOptions {
+            max_range_size: 12,
+            ..Default::default()
+        },
+        CompileOptions { flavor },
+    ) {
         Ok(output) => {
             vec![true.into(), output.into()]
         }
