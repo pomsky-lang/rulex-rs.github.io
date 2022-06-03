@@ -3,7 +3,7 @@
   "collaborators": [
     "Ludwig Stecher <ludwig.stecher@gmx.de>"
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "files": [
     "rulex_play_bg.wasm",
     "rulex_play.js",
