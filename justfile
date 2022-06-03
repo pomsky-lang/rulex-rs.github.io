@@ -10,6 +10,9 @@ build:
   git stash
   git checkout gh-pages
 
+  rm -rf ./**
+  rm .nojekyll
+
   mv ../rulex-rs-public/* .
   rm -rf ../rulex-rs-public
 
