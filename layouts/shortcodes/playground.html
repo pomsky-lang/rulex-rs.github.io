@@ -7,242 +7,254 @@
 </div>
 
 {{ partial "wasm-module-include.html" . }}
-<script type="module">
-  const rulexCode = document.getElementById('rulex-input')
-  const echo = document.getElementById('rulex-echo')
-  const regexpCode = document.getElementById('regexp-output')
+<script>
+  ;(function () {
+    /** @type {HTMLTextAreaElement} */
+    const rulexCode = document.getElementById('rulex-input')
+    const echo = document.getElementById('rulex-echo')
+    const regexpCode = document.getElementById('regexp-output')
 
-  const params = new URLSearchParams(window.location.search)
+    const params = new URLSearchParams(window.location.search)
 
-  rulexCode.value = params.get('share') ?? localStorage.getItem('playgroundText') ?? "<< 'example'"
-  echo.textContent = rulexCode.value
-  rulexCode.style.height = echo.clientHeight + 50 + 'px'
-  if (window.hljs) {
-    hljs.highlightElement(echo)
-  }
+    rulexCode.value =
+      params.get('share') ?? localStorage.getItem('playgroundText') ?? "<< 'example'"
 
-  class TextHistory {
-    constructor(elem) {
-      this.elem = elem
-      this.items = [this.makeItem()]
-      this.index = 0
-      this.lastPush = 0
-      this.lastInput = 0
-    }
-
-    makeItem() {
-      return {
-        t: this.elem.value,
-        s: this.elem.selectionStart,
-        e: this.elem.selectionEnd,
-      }
-    }
-
-    input() {
-      const now = Date.now()
-      if (
-        now - this.lastPush > 4000 ||
-        now - this.lastInput > 800 ||
-        Math.abs(this.elem.value.length - this.items[this.index].t.length) > 25
-      ) {
-        this.commit(now)
-      } else {
-        this.lastInput = now
-      }
-    }
-
-    commit(now) {
-      this.lastPush = this.lastInput = now || Date.now()
-
-      this.items.length = ++this.index
-      this.items.push(this.makeItem())
-
-      if (this.items.length > 100) {
-        this.items.shift()
-        this.index--
-      }
-    }
-
-    commitIfChanged() {
-      if (this.elem.value !== this.items[this.index].t) {
-        this.commit(Date.now())
-      }
-    }
-
-    undo() {
-      this.index--
-      if (this.index < 0) {
-        this.index = 0
-      }
-      this.apply()
-    }
-
-    redo() {
-      this.index++
-      if (this.index >= this.items.length) {
-        this.index = this.items.length - 1
-      }
-      this.apply()
-    }
-
-    apply() {
-      const item = this.items[this.index]
-      this.elem.value = item.t
-      this.elem.selectionStart = item.s
-      this.elem.selectionEnd = item.e
-    }
-  }
-
-  const textHistory = new TextHistory(rulexCode)
-
-  function recompile() {
     echo.textContent = rulexCode.value
-    hljs.highlightElement(echo)
     rulexCode.style.height = echo.clientHeight + 50 + 'px'
-
-    localStorage.setItem('playgroundText', rulexCode.value)
-    const result = compileRulex(rulexCode.value)
-
-    if (typeof result === 'string') {
-      regexpCode.textContent = result
-
-      hljs.highlightElement(regexpCode)
-    } else {
-      regexpCode.innerHTML = `<strong class="error">${escapeHtml(result.error)}</strong>`
-      if (result.help != null) {
-        regexpCode.innerHTML += `<br /><br /><strong class="help">Help:</strong> ${escapeHtml(
-          result.help
-        )}`
-      }
-      if (result.spans != null) {
-        regexpCode.innerHTML += `<br /><br />${escapeHtml(result.spans[0])}<strong class="error">${
-          result.spans[1] === '' ? '&lt;error here>' : escapeHtml(result.spans[1])
-        }</strong>${escapeHtml(result.spans[2])}`
-      }
+    if (window.hljs) {
+      hljs.highlightElement(echo)
     }
-  }
 
-  function escapeHtml(html) {
-    return html.replace(/[<"&]/g, (c) => {
-      return c === '<' ? '&lt;' : c === '"' ? '&quot;' : c === '&' ? '&amp;' : c
-    })
-  }
+    function makeTextHistory(elem) {
+      const items = [makeItem()]
+      let index = 0
+      let lastPush = 0
+      let lastInput = 0
 
-  function initPlayground() {
-    recompile()
+      function makeItem() {
+        return {
+          t: elem.value,
+          s: elem.selectionStart,
+          e: elem.selectionEnd,
+        }
+      }
 
-    rulexCode.addEventListener('input', () => {
-      recompile()
-      textHistory.input()
-    })
-
-    rulexCode.addEventListener('keydown', (e) => {
-      if (e.key === 's' && e.ctrlKey) {
-        window.location.search = `?share=${encodeURIComponent(rulexCode.value)}`
-        e.preventDefault()
-        return false
-      } else if (e.key === 'Tab') {
-        e.preventDefault()
-        if (!e.shiftKey && rulexCode.selectionStart === rulexCode.selectionEnd) {
-          insertTab()
+      function input() {
+        const now = Date.now()
+        if (
+          now - lastPush > 4000 ||
+          now - lastInput > 800 ||
+          Math.abs(elem.value.length - items[index].t.length) > 25
+        ) {
+          commit(now)
         } else {
-          changeIndentation(e.shiftKey ? -2 : 2)
+          lastInput = now
         }
-        recompile()
-        return false
-      } else if (e.key === 'Enter') {
-        e.preventDefault()
-        textHistory.commitIfChanged()
-        insertEnter(e.shiftKey)
-        recompile()
-        return false
-      } else if (e.key === 'z' && e.ctrlKey) {
-        e.preventDefault()
-        textHistory.undo()
-        recompile()
-        return false
-      } else if (e.key === 'y' && e.ctrlKey) {
-        e.preventDefault()
-        textHistory.redo()
-        textHistory.commit()
-        recompile()
-        return false
       }
-    })
-  }
 
-  function insertTab() {
-    /** @type string */
-    const text = rulexCode.value
-    const pos = rulexCode.selectionStart
-    const before = text.substring(0, pos)
-    const after = text.substring(pos)
+      function commit(now) {
+        lastPush = lastInput = now || Date.now()
 
-    const lineLength = before.length - before.search(/.*?$/)
-    const tabWidth = 2 - (lineLength % 2)
-    rulexCode.value = before + '  '.substr(0, tabWidth) + after
-    rulexCode.selectionStart = rulexCode.selectionEnd = before.length + tabWidth
-  }
+        items.length = ++index
+        items.push(makeItem())
 
-  function changeIndentation(n) {
-    const text = rulexCode.value
-    const c1 = rulexCode.selectionStart
-    const c2 = rulexCode.selectionEnd
-
-    const before = text.substring(0, c1)
-    const lineBeforeLength = before.length - before.search(/.*?$/)
-    const wsAfterLength = text.substring(c2).search(/[^ ]|$/)
-
-    const after = text.substring(c2)
-    const afterNoWs = text.substring(c2 + wsAfterLength)
-
-    let firstIndentDelta = 0
-    let lastIndent = 0
-    const selectionLines = text
-      .substring(c1 - lineBeforeLength, c2 + wsAfterLength)
-      .split('\n')
-      .map((/** @type string */ line, i) => {
-        const currentIndent = line.search(/[^ ]|$/)
-        const newIndent = Math.max(0, currentIndent + n)
-        const delta = newIndent - currentIndent
-        if (i === 0) {
-          firstIndentDelta = delta
+        if (items.length > 100) {
+          items.shift()
+          index--
         }
-        lastIndent = newIndent
-        return delta > 0 ? '  '.substring(0, delta) + line : line.substring(-delta)
-      })
-      .join('\n')
+      }
 
-    rulexCode.value = text.substring(0, c1 - lineBeforeLength) + selectionLines + afterNoWs
-    rulexCode.selectionStart = Math.max(0, c1 + firstIndentDelta)
-    rulexCode.selectionEnd =
-      rulexCode.value.length - Math.min(after.length, afterNoWs.length + lastIndent)
-  }
+      function commitIfChanged() {
+        if (elem.value !== items[index].t) {
+          commit(Date.now())
+        }
+      }
 
-  function insertEnter(shiftKey) {
-    const text = rulexCode.value
+      function undo() {
+        index--
+        if (index < 0) {
+          index = 0
+        }
+        apply()
+      }
 
-    if (shiftKey) {
-      const rest = text.substr(rulexCode.selectionEnd)
-      const lineEnd = rest.search(/\n|$/)
-      rulexCode.selectionStart = rulexCode.selectionEnd = rulexCode.selectionEnd + lineEnd
+      function redo() {
+        index++
+        if (index >= items.length) {
+          index = items.length - 1
+        }
+        apply()
+      }
+
+      function apply() {
+        const item = items[index]
+        elem.value = item.t
+        elem.selectionStart = item.s
+        elem.selectionEnd = item.e
+      }
+
+      return {
+        input: input,
+        commit: commit,
+        commitIfChanged: commitIfChanged,
+        undo: undo,
+        redo: redo,
+        apply: apply,
+      }
     }
 
-    const c1 = rulexCode.selectionStart
-    const c2 = rulexCode.selectionEnd
+    const textHistory = makeTextHistory(rulexCode)
 
-    const before = text.substring(0, c1)
-    const lineBeforeLength = before.length - before.search(/.*?$/)
-    const lineBefore = before.substring(before.length - lineBeforeLength)
-    const indent = lineBefore.search(/[^ ]|$/)
+    function recompile() {
+      echo.textContent = rulexCode.value
+      hljs.highlightElement(echo)
+      rulexCode.style.height = echo.clientHeight + 50 + 'px'
 
-    rulexCode.value = text.substring(0, c1) + '\n' + ' '.repeat(indent) + text.substring(c2)
-    rulexCode.selectionStart = rulexCode.selectionEnd = c1 + indent + 1
-  }
+      localStorage.setItem('playgroundText', rulexCode.value)
+      const result = compileRulex(rulexCode.value)
 
-  if (window.compileRulex) {
-    initPlayground()
-  } else {
-    window.addEventListener('rulex-initialized', initPlayground)
-  }
+      if (typeof result === 'string') {
+        regexpCode.textContent = result
+
+        hljs.highlightElement(regexpCode)
+      } else {
+        regexpCode.innerHTML = `<strong class="error">${escapeHtml(result.error)}</strong>`
+        if (result.help != null) {
+          regexpCode.innerHTML += `<br /><br /><strong class="help">Help:</strong> ${escapeHtml(
+            result.help
+          )}`
+        }
+        if (result.spans != null) {
+          regexpCode.innerHTML += `<br /><br />${escapeHtml(
+            result.spans[0]
+          )}<strong class="error">${
+            result.spans[1] === '' ? '&lt;error here>' : escapeHtml(result.spans[1])
+          }</strong>${escapeHtml(result.spans[2])}`
+        }
+      }
+    }
+
+    function escapeHtml(/** @type {string} */ html) {
+      return html.replace(/[<"&]/g, function (c) {
+        return c === '<' ? '&lt;' : c === '"' ? '&quot;' : c === '&' ? '&amp;' : c
+      })
+    }
+
+    function initPlayground() {
+      recompile()
+
+      rulexCode.addEventListener('input', function () {
+        recompile()
+        textHistory.input()
+      })
+
+      rulexCode.addEventListener('keydown', function (e) {
+        if (e.key === 's' && e.ctrlKey) {
+          window.location.search = `?share=${encodeURIComponent(rulexCode.value)}`
+          e.preventDefault()
+          return false
+        } else if (e.key === 'Tab') {
+          e.preventDefault()
+          if (!e.shiftKey && rulexCode.selectionStart === rulexCode.selectionEnd) {
+            insertTab()
+          } else {
+            changeIndentation(e.shiftKey ? -2 : 2)
+          }
+          recompile()
+          return false
+        } else if (e.key === 'Enter') {
+          e.preventDefault()
+          textHistory.commitIfChanged()
+          insertEnter(e.shiftKey)
+          recompile()
+          return false
+        } else if (e.key === 'z' && e.ctrlKey) {
+          e.preventDefault()
+          textHistory.undo()
+          recompile()
+          return false
+        } else if (e.key === 'y' && e.ctrlKey) {
+          e.preventDefault()
+          textHistory.redo()
+          textHistory.commit()
+          recompile()
+          return false
+        }
+      })
+    }
+
+    function insertTab() {
+      const text = rulexCode.value
+      const pos = rulexCode.selectionStart
+      const before = text.substring(0, pos)
+      const after = text.substring(pos)
+
+      const lineLength = before.length - before.search(/.*?$/)
+      const tabWidth = 2 - (lineLength % 2)
+      rulexCode.value = before + '  '.substr(0, tabWidth) + after
+      rulexCode.selectionStart = rulexCode.selectionEnd = before.length + tabWidth
+    }
+
+    function changeIndentation(/** @type {number} */ n) {
+      const text = rulexCode.value
+      const c1 = rulexCode.selectionStart
+      const c2 = rulexCode.selectionEnd
+
+      const before = text.substring(0, c1)
+      const lineBeforeLength = before.length - before.search(/.*?$/)
+      const wsAfterLength = text.substring(c2).search(/[^ ]|$/)
+
+      const after = text.substring(c2)
+      const afterNoWs = text.substring(c2 + wsAfterLength)
+
+      let firstIndentDelta = 0
+      let lastIndent = 0
+      const selectionLines = text
+        .substring(c1 - lineBeforeLength, c2 + wsAfterLength)
+        .split('\n')
+        .map(function (line, i) {
+          const currentIndent = line.search(/[^ ]|$/)
+          const newIndent = Math.max(0, currentIndent + n)
+          const delta = newIndent - currentIndent
+          if (i === 0) {
+            firstIndentDelta = delta
+          }
+          lastIndent = newIndent
+          return delta > 0 ? '  '.substring(0, delta) + line : line.substring(-delta)
+        })
+        .join('\n')
+
+      rulexCode.value = text.substring(0, c1 - lineBeforeLength) + selectionLines + afterNoWs
+      rulexCode.selectionStart = Math.max(0, c1 + firstIndentDelta)
+      rulexCode.selectionEnd =
+        rulexCode.value.length - Math.min(after.length, afterNoWs.length + lastIndent)
+    }
+
+    function insertEnter(/** @type {boolean} */ shiftKey) {
+      const text = rulexCode.value
+
+      if (shiftKey) {
+        const rest = text.substr(rulexCode.selectionEnd)
+        const lineEnd = rest.search(/\n|$/)
+        rulexCode.selectionStart = rulexCode.selectionEnd = rulexCode.selectionEnd + lineEnd
+      }
+
+      const c1 = rulexCode.selectionStart
+      const c2 = rulexCode.selectionEnd
+
+      const before = text.substring(0, c1)
+      const lineBeforeLength = before.length - before.search(/.*?$/)
+      const lineBefore = before.substring(before.length - lineBeforeLength)
+      const indent = lineBefore.search(/[^ ]|$/)
+
+      rulexCode.value = text.substring(0, c1) + '\n' + ' '.repeat(indent) + text.substring(c2)
+      rulexCode.selectionStart = rulexCode.selectionEnd = c1 + indent + 1
+    }
+
+    if (window.compileRulex) {
+      initPlayground()
+    } else {
+      window.addEventListener('rulex-initialized', initPlayground)
+    }
+  })()
 </script>
