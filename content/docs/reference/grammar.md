@@ -194,7 +194,7 @@ Note that the second syntax exists mainly to be compatible with Rust tokenizatio
 
 ### UnicodeProperty
 
-Details about supported Unicode properties can be [found here](unicode-properties.md).
+Details about supported Unicode properties can be [found here](../unicode-properties).
 
 ```rulex
 let UnicodeProperty = '!'? [w]+;
