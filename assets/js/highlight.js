@@ -98,16 +98,17 @@ hljs.registerLanguage('regexp', function () {
         begin: /\(\?\w\)/,
       },
       {
+        // special group start
+        className: 'punctuation',
+        begin: /\((\?:|\?<\w+>|\?=|\?!|\?<=|\?<!)/,
+      },
+      {
         className: 'punctuation',
         begin: /[|()]/,
       },
       {
         className: 'literal',
         begin: /[\^$]/,
-      },
-      {
-        className: 'keyword',
-        begin: /(?<=(?<!(?<!\\)\\)\()(\?:|\?<\w+>|\?=|\?!|\?<=|\?<!)/,
       },
       {
         className: 'keyword',
@@ -135,7 +136,7 @@ hljs.registerLanguage('regexp', function () {
       CHAR_ESCAPE,
       {
         className: 'punctuation',
-        begin: /\[/,
+        begin: /\[\^?/,
         end: /\]/,
         contains: [
           P_BRACED,
@@ -143,16 +144,6 @@ hljs.registerLanguage('regexp', function () {
           LITERAL,
           SPECIAL_ESCAPE,
           CHAR_ESCAPE,
-          {
-            // dash in a range, e.g. 'a-f'
-            className: 'keyword',
-            begin: /(?<![[\\])-(?!\])/,
-          },
-          {
-            // leading '^'
-            className: 'keyword',
-            begin: /(?<=\[)\^/,
-          },
           {
             // make sure the above isn't triggered after a nested '['
             className: 'string',
