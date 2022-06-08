@@ -97,7 +97,7 @@ let PosixClass = 'ascii_alpha' | 'ascii_alnum' | 'ascii' | 'ascii_blank'
                | 'ascii_word'  | 'ascii_xdigit';
 </code></pre><h3 id=codepoint>CodePoint <a href=#codepoint class=anchor aria-hidden=true>#</a></h3><pre><code class=language-rulex>let CodePoint = 'U+' ['0'-'9' 'a'-'f' 'A'-'F']{1,6}
               | 'U' ['0'-'9' 'a'-'f' 'A'-'F']{1,6};
-</code></pre><p>Note that the second syntax exists mainly to be compatible with Rust tokenization.</p><h3 id=unicodeproperty>UnicodeProperty <a href=#unicodeproperty class=anchor aria-hidden=true>#</a></h3><p>Details about supported Unicode properties can be <a href=unicode-properties.md>found here</a>.</p><pre><code class=language-rulex>let UnicodeProperty = '!'? [w]+;
+</code></pre><p>Note that the second syntax exists mainly to be compatible with Rust tokenization.</p><h3 id=unicodeproperty>UnicodeProperty <a href=#unicodeproperty class=anchor aria-hidden=true>#</a></h3><p>Details about supported Unicode properties can be <a href=../unicode-properties>found here</a>.</p><pre><code class=language-rulex>let UnicodeProperty = '!'? [w]+;
 </code></pre><h3 id=grapheme>Grapheme <a href=#grapheme class=anchor aria-hidden=true>#</a></h3><pre><code class=language-rulex>let Grapheme = 'Grapheme' | 'X';
 </code></pre><h3 id=boundary>Boundary <a href=#boundary class=anchor aria-hidden=true>#</a></h3><pre><code class=language-rulex>let Boundary = '%' | '!' '%' | '&lt;%' | '%&gt;';
 </code></pre><h3 id=numberrange>NumberRange <a href=#numberrange class=anchor aria-hidden=true>#</a></h3><pre><code class=language-rulex>let NumberRange = 'range' String '-' String Base?;
