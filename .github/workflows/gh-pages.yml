@@ -2,8 +2,8 @@ name: GitHub Pages
 
 on:
   push:
-    branches: [] # [main] - this is currently broken
-  pull_request:
+    branches: [none]
+  # pull_request:
 
 jobs:
   deploy:
