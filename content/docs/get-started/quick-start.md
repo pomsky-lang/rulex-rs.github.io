@@ -38,7 +38,7 @@ cargo install rulex-bin
 To find out how to use the CLI, run
 
 ```
-rulex help
+rulex --help
 ```
 
 ## Rust macro
