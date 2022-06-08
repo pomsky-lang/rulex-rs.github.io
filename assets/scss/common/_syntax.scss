@@ -1,34 +1,34 @@
-.hljs-variable,
-.hljs-template-variable,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition,
-.hljs-attribute,
-.hljs-link {
+.hljs .hljs-variable,
+.hljs .hljs-template-variable,
+.hljs .hljs-symbol,
+.hljs .hljs-bullet,
+.hljs .hljs-addition,
+.hljs .hljs-attribute,
+.hljs .hljs-link {
   color: #d32e9d;
 }
 
-.hljs-punctuation {
+.hljs .hljs-punctuation {
   color: #353535;
   font-weight: normal;
 }
 
-.hljs-comment,
-.hljs-quote,
-.hljs-deletion {
+.hljs .hljs-comment,
+.hljs .hljs-quote,
+.hljs .hljs-deletion {
   color: #888;
 }
 
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-section,
-.hljs-name,
-.hljs-type,
-.hljs-strong {
+.hljs .hljs-keyword,
+.hljs .hljs-selector-tag,
+.hljs .hljs-section,
+.hljs .hljs-name,
+.hljs .hljs-type,
+.hljs .hljs-strong {
   font-weight: 600;
 }
 
-.hljs-emphasis {
+.hljs .hljs-emphasis {
   font-style: italic;
 }
 
@@ -37,64 +37,64 @@
   color: #dee2e6;
 }
 
-[data-dark-mode] body .hljs-string,
-[data-dark-mode] body .hljs-variable,
-[data-dark-mode] body .hljs-template-variable,
-[data-dark-mode] body .hljs-symbol,
-[data-dark-mode] body .hljs-bullet,
-[data-dark-mode] body .hljs-addition,
-[data-dark-mode] body .hljs-attribute,
-[data-dark-mode] body .hljs-link {
+[data-dark-mode] body .hljs .hljs-string,
+[data-dark-mode] body .hljs .hljs-variable,
+[data-dark-mode] body .hljs .hljs-template-variable,
+[data-dark-mode] body .hljs .hljs-symbol,
+[data-dark-mode] body .hljs .hljs-bullet,
+[data-dark-mode] body .hljs .hljs-addition,
+[data-dark-mode] body .hljs .hljs-attribute,
+[data-dark-mode] body .hljs .hljs-link {
   color: #8ed6fb;
 }
 
-[data-dark-mode] body .hljs-punctuation {
+[data-dark-mode] body .hljs .hljs-punctuation {
   color: #c4c8cc;
 }
 
-.hljs-keyword {
+.hljs .hljs-keyword {
   color: #b13001;
 }
 
-body .hljs-string {
+.hljs .hljs-string {
   color: green;
 }
 
-.hljs-title,
-.hljs-built_in,
-.hljs-section {
+.hljs .hljs-title,
+.hljs .hljs-built_in,
+.hljs .hljs-section {
   color: #004d90;
 }
 
-.hljs-number,
-.hljs-meta,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params {
+.hljs .hljs-number,
+.hljs .hljs-meta,
+.hljs .hljs-builtin-name,
+.hljs .hljs-literal,
+.hljs .hljs-type,
+.hljs .hljs-params {
   color: #99008c;
   font-weight: normal;
 }
 
-[data-dark-mode] body .hljs-keyword {
+[data-dark-mode] body .hljs .hljs-keyword {
   color: #f07e54;
 }
 
-[data-dark-mode] body .hljs-string {
+[data-dark-mode] body .hljs .hljs-string {
   color: #b8cc52;
 }
 
-[data-dark-mode] body .hljs-title,
-[data-dark-mode] body .hljs-built_in,
-[data-dark-mode] body .hljs-section {
+[data-dark-mode] body .hljs .hljs-title,
+[data-dark-mode] body .hljs .hljs-built_in,
+[data-dark-mode] body .hljs .hljs-section {
   color: #ffbb63;
 }
 
-[data-dark-mode] body .hljs-number,
-[data-dark-mode] body .hljs-meta,
-[data-dark-mode] body .hljs-builtin-name,
-[data-dark-mode] body .hljs-literal,
-[data-dark-mode] body .hljs-type,
-[data-dark-mode] body .hljs-params {
+[data-dark-mode] body .hljs .hljs-number,
+[data-dark-mode] body .hljs .hljs-meta,
+[data-dark-mode] body .hljs .hljs-builtin-name,
+[data-dark-mode] body .hljs .hljs-literal,
+[data-dark-mode] body .hljs .hljs-type,
+[data-dark-mode] body .hljs .hljs-params {
   color: #ffa6f6;
 }

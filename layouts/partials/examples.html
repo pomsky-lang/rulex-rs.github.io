@@ -1,15 +1,25 @@
 <h2 class="example-heading">Examples</h2>
 
 <div id="examples" class="hidden">
-  <div data-title="Basic">'Hello' ' '+ ('world' | 'rulex')</div>
-  <div data-title="Boundaries"><% ' '+ | ' '+ %> | % ' '+ %</div>
-  <div data-title="Repetition">'hello'{1,5} 'world'* lazy</div>
-  <div data-title="Character classes">['acd[]' 'p'-'s'] !['^']</div>
-  <div data-title="Unicode">[s U+15 U+FEFF Greek]</div>
-  <div data-title="Capturing groups">:([s]) :named([.]) ::named</div>
-  <div data-title="Lookaround">(<< 'foo' | 'bar') (!>> 'foo' | 'bar')</div>
-  <div data-title="Ranges">range '0'-'255'</div>
-  <div data-title="Variables">let x = [digit]+; x '+' x</div>
+  <div data-title="Basic" data-result="Hello +(?:world|rulex)">
+    'Hello' ' '+ ('world' | 'rulex')
+  </div>
+  <div data-title="Boundaries" data-result="^ +| +$|\b +\b"><% ' '+ | ' '+ %> | % ' '+ %</div>
+  <div data-title="Repetition" data-result="(?:hello){1,5}(?:world)*?">
+    'hello'{1,5} 'world'* lazy
+  </div>
+  <div data-title="Character classes" data-result="[acd[\]p-s][^\^]">['acd[]' 'p'-'s'] !['^']</div>
+  <div data-title="Unicode" data-result="[\s\x15\uFEFF\p{Greek}]">[s U+15 U+FEFF Greek]</div>
+  <div data-title="Capturing groups" data-result="(\s)(?<named>.)\2">
+    :([s]) :named([.]) ::named
+  </div>
+  <div data-title="Lookaround" data-result="(?<=foo|bar)(?!foo|bar)">
+    (<< 'foo' | 'bar') (!>> 'foo' | 'bar')
+  </div>
+  <div data-title="Ranges" data-result="0|1[0-9]{0,2}|2(?:[0-4][0-9]?|5[0-5]?|[6-9])?|[3-9][0-9]?">
+    range '0'-'255'
+  </div>
+  <div data-title="Variables" data-result="\p{Nd}+\+\p{Nd}+">let x = [digit]+; x '+' x</div>
 </div>
 
 <script type="module">
@@ -47,46 +57,20 @@
     active = n
     tabs[active].classList.add('active')
 
-    rulexCode.textContent = children[n].textContent
-    regexpCode.textContent = compileRulex(children[n].textContent)
+    rulexCode.textContent = children[n].textContent.trim()
+    regexpCode.textContent = children[n].getAttribute('data-result')
 
-    hljs.highlightElement(rulexCode)
-    hljs.highlightElement(regexpCode)
+    if ('hljs' in window) {
+      hljs.highlightElement(rulexCode)
+      hljs.highlightElement(regexpCode)
+    }
   }
 
-  function initExamples() {
-    selectTab(0)
+  selectTab(0)
 
-    for (const tab of tabs) {
-      tab.addEventListener('click', () => {
-        selectTab(+tab.getAttribute('data-i'))
-        resetInterval()
-      })
-    }
-
-    let interval
-
-    function resetInterval() {
-      if (interval != null) {
-        clearInterval(interval)
-        interval = null
-      }
-
-      setTimeout(() => {
-        if (interval != null) {
-          clearInterval(interval)
-          interval = null
-        }
-
-        interval = setInterval(() => selectTab(active + 1), 5000)
-      }, 5000)
-    }
-    resetInterval()
-  }
-
-  if (window.compileRulex) {
-    initExamples()
-  } else {
-    window.addEventListener('rulex-initialized', initExamples)
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => {
+      selectTab(+tab.getAttribute('data-i'))
+    })
   }
 </script>

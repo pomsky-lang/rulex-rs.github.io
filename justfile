@@ -11,7 +11,7 @@ build:
   git checkout gh-pages
 
   rm -rf ./**
-  rm .nojekyll
+  rm -rf .nojekyll
 
   mv ../rulex-rs-public/* .
   rm -rf ../rulex-rs-public
