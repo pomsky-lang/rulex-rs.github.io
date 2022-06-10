@@ -44,4 +44,4 @@ forbid repetitions or expressions with an unknown length, such as
 matching; instead, when they see a lookbehind such as {{<rulex>}}(<< 'foo'){{</rulex>}}, they see
 that it has a length of 3 code points, so they go back 3 characters in the string and match the
 expression {{<rulex>}}'foo'{{</rulex>}} forwards. This requires that the length of the match
-is known. Rulex currently doesn't validates this for regex engines with such a requirement.
+is known. Rulex currently doesn't validate this for regex engines with such a requirement.
