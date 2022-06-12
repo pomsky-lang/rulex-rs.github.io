@@ -56,3 +56,21 @@ This generates this regex:
 ```regexp
 1(?:0(?:[0-9a-eA-E][0-9a-fA-F]|[fF][0-9a-fA-F]?)|[1-9a-fA-F][0-9a-fA-F]{1,2})|[2-9a-fA-F][0-9a-fA-F]{2,3}
 ```
+
+## Leading zeroes
+
+If you wish to support leading zeros, this is easy to achieve by putting {{<rulex>}}'0'*{{</rulex>}}
+in front:
+
+```rulex
+'0'* range '0'-'1024'
+```
+
+If the number should have a certain length, with leading zeroes added when necessary, rulex has a
+special syntax for this:
+
+```rulex
+range '0000'-'1024'
+```
+
+This matches numbers in the specified range with exactly 4 digits, such as `0110` or `0026`.
