@@ -118,7 +118,6 @@ let Quantifier = 'greedy' | 'lazy';
 let AtomExpression = Group
                    | String
                    | CharacterClass
-                   | Grapheme
                    | Boundary
                    | Reference
                    | CodePoint
@@ -198,12 +197,6 @@ Details about supported Unicode properties can be [found here](../unicode-proper
 
 ```rulex
 let UnicodeProperty = '!'? [w]+;
-```
-
-### Grapheme
-
-```rulex
-let Grapheme = 'Grapheme' | 'X';
 ```
 
 ### Boundary
