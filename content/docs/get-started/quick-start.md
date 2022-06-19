@@ -22,6 +22,14 @@ The CLI allows you to compile rulex expressions to regexes in the command line.
 Binaries are available for Windows, Linux and macOS. Download them from the
 [releases page](https://github.com/rulex-rs/rulex/releases).
 
+### Use AUR package
+
+On Arch Linux, you can use the [AUR package](https://aur.archlinux.org/packages/rulex-rs-bin) with
+
+```sh
+yay -S rulex-rs-bin
+```
+
 ### Install from source
 
 This requires that a recent Rust toolchain is installed. Instructions for how to install Rust can be
