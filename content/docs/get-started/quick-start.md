@@ -13,6 +13,12 @@ weight: 102
 toc: true
 ---
 
+## Playground
+
+Using [the playground](https://rulex-rs.github.io/playground/) is the easiest and most convenient
+way to get started using rulex. It supports syntax highlighting and shows errors directly in your
+code.
+
 ## CLI
 
 The CLI allows you to compile rulex expressions to regexes in the command line.
@@ -52,10 +58,10 @@ rulex --help
 ## Rust macro
 
 If you want to write a rulex directly in your Rust source code, the
-[rulex-macro](https://crates.io/crates/rulex-macro) got you covered. Add this to your `Cargo.toml`:
+[rulex-macro](https://crates.io/crates/rulex-macro) got you covered. Run this command:
 
-```toml
-rulex-macro = "0.4.0"
+```sh
+cargo add rulex-macro
 ```
 
 Then you can import and use it with
