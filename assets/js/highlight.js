@@ -25,7 +25,7 @@ hljs.registerLanguage('rulex', function (hljs) {
       },
       {
         className: 'keyword',
-        beginKeywords: 'let enable disable greedy lazy range base Grapheme X',
+        beginKeywords: 'let enable disable greedy lazy range base',
       },
       {
         className: 'keyword',

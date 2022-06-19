@@ -169,11 +169,13 @@ Note that `word`, `digit` and `space` only match ASCII characters, if the regex 
 configured to be Unicode-aware. How to enable Unicode support is
 [described here](../../get-started/enable-unicode).
 
-There are two more shorthands: {{<rulex>}}[codepoint]{{</rulex>}} (or {{<rulex>}}[cp]{{</rulex>}}
-for short), matches any Unicode code point; {{<rulex>}}[.]{{</rulex>}} matches any Unicode
-code point, _except_ the ASCII line break `\n`. These two shorthands are special, because they
-have to be the only thing in a character class; for example, {{<rulex>}}[. 'x']{{</rulex>}}
-would be illegal, and also kind of useless.
+If you want to match _any_ code point, you can use `Codepoint`, or `C` for short. This does not
+require brackets, because it is a [built-in variable](../../reference/built-in-variables).
+For example, this matches a double-quoted string:
+
+```rulex
+'"' Codepoint* lazy '"'
+```
 
 ### What if I don't need Unicode support?
 

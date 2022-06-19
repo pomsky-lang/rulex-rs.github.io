@@ -24,3 +24,5 @@ to match a text with at most 400 characters, you can write
 ```rulex
 Grapheme{0,400}
 ```
+
+{{<rulex>}}Grapheme{{</rulex>}} is a [built-in variable](../../reference/built-in-variables).
