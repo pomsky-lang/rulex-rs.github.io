@@ -53,8 +53,9 @@ exponential runtime performance. A regex created with not enough care or by a ba
 take down a NodeJS server if the server naively matches a large body of text against the regex.
 
 What does this mean for rulex? Unless you use RE2 or Rust's `regex` crate (which never backtrack),
-rulex expressions are just as susceptible to catastrophic backtracking as hand-written regexes.
-Therefore, _don't execute untrusted regexes on critical infrastructure_.
+rulex expressions are just as susceptible to
+[catastrophic backtracking](https://www.regular-expressions.info/catastrophic.html) as hand-written
+regexes. Therefore, _don't execute untrusted regexes on critical infrastructure_.
 
 ## A million ranges
 
