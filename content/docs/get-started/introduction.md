@@ -51,7 +51,7 @@ On the left are rulex expressions, on the right are the equivalent regexes:
 ['p'-'s']                     # [p-s]
 
 # Named character classes
-[.] [w] [s] [n]               # .\w\s\n
+[word] [space] [n]            # \w\s\n
 
 # Combined
 [w 'a' 't'-'z' U+15]          # [\wat-z\x15]
@@ -63,7 +63,7 @@ On the left are rulex expressions, on the right are the equivalent regexes:
 [Greek] U+30F Grapheme        # \p{Greek}\u030F\X
 
 # Boundaries
-<% %>                         # ^$
+Start End                     # ^$
 % 'hello' !%                  # \bhello\B
 
 # Non-capturing groups
