@@ -32,11 +32,11 @@ hljs.registerLanguage('rulex', function (hljs) {
         begin: /::?\s*[+-]?[A-Za-z0-9]*/,
       },
       {
-        className: 'literal',
+        className: 'literalx',
         begin: /U\+[0-9a-fA-F]+|<%|%>|%/,
       },
       {
-        className: 'title',
+        className: 'titlex',
         begin: /\b[A-Za-z_][A-Za-z0-9_]*\b|\./,
       },
       {
@@ -65,26 +65,26 @@ hljs.registerLanguage('regexp', function () {
     begin: /\\[pP]\w/,
   }
   const P_BRACED = {
-    className: 'literal',
+    className: 'literalx',
     begin: /\\[pP]\{/,
     end: /\}/,
     contains: [
       {
-        className: 'title',
+        className: 'titlex',
         begin: /[\w\-&.]+/,
       },
     ],
   }
   const LITERAL = {
-    className: 'literal',
+    className: 'literalx',
     begin: /\\x\w\w|\\u\w\w\w\w|\\[xu]\{[\w.]+\}/,
   }
   const SPECIAL_ESCAPE = {
-    className: 'literal',
+    className: 'literalx',
     begin: /\\[.?+*^|\-(){}[\]\\]/,
   }
   const CHAR_ESCAPE = {
-    className: 'title',
+    className: 'titlex',
     begin: /\\./,
   }
 
@@ -107,7 +107,7 @@ hljs.registerLanguage('regexp', function () {
         begin: /[|()]/,
       },
       {
-        className: 'literal',
+        className: 'literalx',
         begin: /[\^$]/,
       },
       {

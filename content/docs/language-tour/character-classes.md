@@ -53,10 +53,12 @@ put them into the same quotes:
 ['$_' 'a'-'z' 'A'-'Z']
 ```
 
-This is equivalent to {{<rulex>}}('$' | '_' | ['a'-'z' 'A'-'Z']){{</rulex>}}, but it's shorter
+This is equivalent to {{<rulex>}}('$' | '\_' | ['a'-'z' 'A'-'Z']){{</rulex>}}, but it's shorter
 and may be more efficient.
 
 ### Character ranges and Unicode
+
+{{< alert icon="👉" text="You can skip this section if you know how the Unicode character set works." />}}
 
 What is a range, exactly? Let's see with an example:
 
@@ -74,6 +76,8 @@ whose numeric value is somewhere between the value of {{<rulex>}}'0'{{</rulex>}}
 of {{<rulex>}}'z'{{</rulex>}}. This works well for letters (e.g. {{<rulex>}}'a'-'Z'{{</rulex>}})
 and numbers ({{<rulex>}}'0'-'9'{{</rulex>}}), because these have consecutive numbers in Unicode.
 However, there are some special characters between digits, uppercase letters and lowercase letters:
+
+<div class="small-table">
 
 | Character | Unicode value |
 | --------- | ------------- |
@@ -102,6 +106,8 @@ However, there are some special characters between digits, uppercase letters and
 | `'a'`     | 97            |
 |           | ...           |
 | `'z'`     | 122           |
+
+</div>
 
 Why, you might ask? This is for [historical](https://en.wikipedia.org/wiki/ASCII#Overview)
 [reasons](https://en.wikipedia.org/wiki/Unicode#History).
@@ -147,112 +153,6 @@ You can see the full list of Unicode properties [here](../../reference/unicode-p
 Character classes are negated by putting a {{<rulex>}}!{{</rulex>}} in front of it. For example,
 {{<rulex>}}!['a'-'f']{{</rulex>}} matches anything except a letter in the range from `a` to `f`.
 
-It's also possible to negate Unicode properties individually. For example, `[Latin !Alphabetic]`
-matches a code point that is either in the Latin script, or is not alphabetic.
-
-## Shorthand character classes
-
-There are a few _shorthand character classes_: `word`, `digit`, `space`, `horiz_space` and
-`vert_space`. They can be abbreviated with their first letter: `w`, `d`, `s`, `h` and `v`. Like
-Unicode properties, they must appear in square brackets.
-
-- `word` matches a _word character_, i.e. a letter, digit or underscore. It's equivalent to
-  {{<rulex>}}[Alphabetic Mark Decimal_Number Connector_Punctuation Join_Control]{{</rulex>}}.
-- `digit` matches a digit. It's equivalent to `Decimal_Number`.
-- `space` matches whitespace. It's equivalent to `White_Space`.
-- `horiz_space` matches horizontal whitespace (tabs and spaces). It's equivalent to
-  {{<rulex>}}[U+09 Space_Separator]{{</rulex>}}.
-- `vert_space` matches vertical whitespace. It's equivalent to
-  {{<rulex>}}[U+0A-U+0D U+85 U+2028 U+2029]{{</rulex>}}.
-
-Note that `word`, `digit` and `space` only match ASCII characters, if the regex engine isn't
-configured to be Unicode-aware. How to enable Unicode support is
-[described here](../../get-started/enable-unicode).
-
-If you want to match _any_ code point, you can use `Codepoint`, or `C` for short. This does not
-require brackets, because it is a [built-in variable](../../reference/built-in-variables).
-For example, this matches a double-quoted string:
-
-```rulex
-'"' Codepoint* lazy '"'
-```
-
-### What if I don't need Unicode support?
-
-You don't have to use Unicode-aware character classes such as {{<rulex>}}[word]{{</rulex>}} if you know
-that the input is only ASCII. Unicode-aware matching can be considerably slower. For example,
-the {{<rulex>}}[word]{{</rulex>}} character class includes more than 100,000 code points, so matching a
-{{<rulex>}}[ascii_word]{{</rulex>}}, which includes only 63 code points, is faster.
-
-Rulex supports a number of ASCII-only shorthands:
-
-| Character class                       | Equivalent                                               |
-| ------------------------------------- | -------------------------------------------------------- |
-| {{<rulex>}}[ascii]{{</rulex>}}        | {{<rulex>}}[U+00-U+7F]{{</rulex>}}                       |
-| {{<rulex>}}[ascii_alpha]{{</rulex>}}  | {{<rulex>}}['a'-'z' 'A'-'Z']{{</rulex>}}                 |
-| {{<rulex>}}[ascii_alnum]{{</rulex>}}  | {{<rulex>}}['0'-'9' 'a'-'z' 'A'-'Z']{{</rulex>}}         |
-| {{<rulex>}}[ascii_blank]{{</rulex>}}  | {{<rulex>}}[' ' U+09],{{</rulex>}}                       |
-| {{<rulex>}}[ascii_cntrl]{{</rulex>}}  | {{<rulex>}}[U+00-U+1F U+7F]{{</rulex>}}                  |
-| {{<rulex>}}[ascii_digit]{{</rulex>}}  | {{<rulex>}}['0'-'9']{{</rulex>}}                         |
-| {{<rulex>}}[ascii_graph]{{</rulex>}}  | {{<rulex>}}['!'-'~']{{</rulex>}}                         |
-| {{<rulex>}}[ascii_lower]{{</rulex>}}  | {{<rulex>}}['a'-'z']{{</rulex>}}                         |
-| {{<rulex>}}[ascii_print]{{</rulex>}}  | {{<rulex>}}[' '-'~']{{</rulex>}}                         |
-| {{<rulex>}}[ascii_punct]{{</rulex>}}  | {{<rulex>}}['!'-'/' ':'-'@' '['-'`' '{'-'~']{{</rulex>}} |
-| {{<rulex>}}[ascii_space]{{</rulex>}}  | {{<rulex>}}[' ' U+09-U+0D]{{</rulex>}}                   |
-| {{<rulex>}}[ascii_upper]{{</rulex>}}  | {{<rulex>}}['A'-'Z']{{</rulex>}}                         |
-| {{<rulex>}}[ascii_word]{{</rulex>}}   | {{<rulex>}}['0'-'9' 'a'-'z' 'A'-'Z' '_']{{</rulex>}}     |
-| {{<rulex>}}[ascii_xdigit]{{</rulex>}} | {{<rulex>}}['0'-'9' 'a'-'f' 'A'-'F']{{</rulex>}}         |
-
-Using them can improve performance, but be careful when you use them. If you aren't sure if the
-input will ever contain non-ASCII characters, it's better to err on the side of correctness, and
-use Unicode-aware character classes.
-
-## Non-printable characters
-
-Characters that can't be printed should be replaced with their hexadecimal Unicode code point. For
-example, you may write {{<rulex>}}U+FEFF{{</rulex>}} to match the
-[Zero Width No-Break Space](https://www.compart.com/en/unicode/U+FEFF).
-
-There are also 6 non-printable characters with a name:
-
-- {{<rulex>}}[n]{{</rulex>}} is equivalent to {{<rulex>}}[U+0A]{{</rulex>}}, the `\n` line feed.
-- {{<rulex>}}[r]{{</rulex>}} is equivalent to {{<rulex>}}[U+0D]{{</rulex>}}, the `\r` carriage
-  return.
-- {{<rulex>}}[f]{{</rulex>}} is equivalent to {{<rulex>}}[U+0C]{{</rulex>}}, the `\f` form feed.
-- {{<rulex>}}[a]{{</rulex>}} is equivalent to {{<rulex>}}[U+07]{{</rulex>}}, the "alert" or "bell"
-  control character.
-- {{<rulex>}}[e]{{</rulex>}} is equivalent to {{<rulex>}}[U+0B]{{</rulex>}}, the "escape" control
-  character.
-
-Other characters have to be written in their hexadecimal form. Note that you don't need to write
-leading zeroes, i.e. {{<rulex>}}U+0{{</rulex>}} is just as ok as {{<rulex>}}U+0000{{</rulex>}}.
-However, it is conventional to write ASCII characters with two digits and non-ASCII characters
-with 4, 5 or 6 digits depending on their length.
-
-## Examples
-
-Let's say we need to match a character that is either a letter, digit, underscore, dot or colon.
-We can use the `word` shorthand, which includes everything we need except the dot and colon:
-
-```rulex
-[word '.:']
-```
-
-What if we want to match a letter or digit, but not an underscore? We can list just the things we
-need:
-
-```rulex
-[Letter digit]
-```
-
-Another solution is to use negation to exclude the underscore from the `word` shorthand:
-
-```rulex
-![!word '_']
-```
-
-How does this work? Since the character class is negated, the part within the square bracket has
-to match anything _except_ the things we want: Letters and digits. Since
-{{<rulex>}}!word{{</rulex>}} also doesn't match underscores, we add {{<rulex>}}'_'{{</rulex>}}
-to get the desired result. This "double negation trick" can be used to remove some things from
-a shorthand.
+It's also possible to negate Unicode properties individually. For example,
+{{<rulex>}}[Latin !Alphabetic]{{</rulex>}} matches a code point that is either in the Latin script,
+or is not alphabetic.

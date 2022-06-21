@@ -39,6 +39,23 @@ samp {
   font-size: 0.95rem;
 }
 
+.small-table table {
+  td {
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+
+    code {
+      padding-top: 0.15rem;
+      padding-bottom: 0.15rem;
+    }
+  }
+}
+
+.table > :not(:first-child),
+table > :not(:first-child) {
+  border-top-color: #888;
+}
+
 h6,
 .h6,
 h5,

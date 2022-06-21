@@ -9,7 +9,7 @@ images: []
 menu:
   docs:
     parent: 'language-tour'
-weight: 207
+weight: 208
 toc: true
 ---
 
@@ -59,7 +59,7 @@ This generates this regex:
 
 ## Leading zeroes
 
-If you wish to support leading zeros, this is easy to achieve by putting {{<rulex>}}'0'*{{</rulex>}}
+If you wish to support leading zeros, this is easy to achieve by putting {{<rulex>}}'0'\*{{</rulex>}}
 in front:
 
 ```rulex

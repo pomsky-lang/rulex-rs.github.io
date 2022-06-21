@@ -61,6 +61,7 @@
 }
 
 .hljs .hljs-title,
+.hljs .hljs-titlex,
 .hljs .hljs-built_in,
 .hljs .hljs-section {
   color: #004d90;
@@ -70,6 +71,7 @@
 .hljs .hljs-meta,
 .hljs .hljs-builtin-name,
 .hljs .hljs-literal,
+.hljs .hljs-literalx,
 .hljs .hljs-type,
 .hljs .hljs-params {
   color: #99008c;
@@ -85,6 +87,7 @@
 }
 
 [data-dark-mode] body .hljs .hljs-title,
+[data-dark-mode] body .hljs .hljs-titlex,
 [data-dark-mode] body .hljs .hljs-built_in,
 [data-dark-mode] body .hljs .hljs-section {
   color: #ffbb63;
@@ -94,6 +97,7 @@
 [data-dark-mode] body .hljs .hljs-meta,
 [data-dark-mode] body .hljs .hljs-builtin-name,
 [data-dark-mode] body .hljs .hljs-literal,
+[data-dark-mode] body .hljs .hljs-literalx,
 [data-dark-mode] body .hljs .hljs-type,
 [data-dark-mode] body .hljs .hljs-params {
   color: #ffa6f6;
