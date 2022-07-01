@@ -22,7 +22,7 @@ There are currently 6 built-in variables:
 - `Codepoint` matches a single Unicode code point. It compiles to the regex
   {{<regexp>}}[\s\S]{{</regexp>}}.
 - `C` is an alias for `Codepoint`
-- `Start`: Matches the start of the string. The alias, `<%` is about to be deprecated.
+- `Start`: Matches the start of the string.
   It compiles to the regex {{<regexp>}}^{{</regexp>}}.
-- `End`: Matches the end of the string. The alias, `%>` is about to be deprecated.
+- `End`: Matches the end of the string.
   It compiles to the regex {{<regexp>}}${{</regexp>}}.

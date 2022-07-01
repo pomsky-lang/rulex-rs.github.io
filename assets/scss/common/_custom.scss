@@ -21,6 +21,15 @@
     'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+[data-dark-mode] body .alert-primary {
+  background-color: #5d2f86;
+  color: white;
+
+  a {
+    color: white;
+  }
+}
+
 pre,
 code,
 kbd,

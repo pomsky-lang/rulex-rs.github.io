@@ -41,18 +41,18 @@ bgColor = "#fff"
 landscapePhotoWidths = [900, 800, 700, 600, 500]
 portraitPhotoWidths = [800, 700, 600, 500]
 lqipWidth = "20x"
-smallLimit = "300"
+smallLimit = "360"
 
 # Footer
-footer = "Powered by <a class=\"text-muted\" href=\"https://gohugo.io/\">Hugo</a> and <a class=\"text-muted\" href=\"https://getdoks.org/\">Doks</a>"
+footer = 'Powered by <a class="text-muted" href="https://gohugo.io/">Hugo</a> and <a class="text-muted" href="https://getdoks.org/">Doks</a>'
 
 # Feed
 copyRight = "Copyright (c) 2022 Ludwig Stecher"
 
 # Alert
-alert = false
-alertDismissable = true
-alertText = "Introducing the rulex playground"
+alert = true
+alertDismissable = false
+alertText = 'Rulex will be renamed to pomsky. <a class="alert-link stretched-link" href="/blog/renaming-rulex">Read the announcement</a>'
 
 # Edit Page
 repoHost = "GitHub"

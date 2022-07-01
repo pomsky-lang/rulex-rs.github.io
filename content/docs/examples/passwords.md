@@ -23,7 +23,7 @@ lowercase letter, digit and punctuation/symbol code point, and is at least 8 cod
 Equivalent rulex:
 
 ```rulex
-<%
+Start
 (>> [cp]* [digit])
 (>> [cp]* [Ll])
 (>> [cp]* [Lu])
