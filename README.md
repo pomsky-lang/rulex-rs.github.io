@@ -1,7 +1,3 @@
-# rulex website
+# pomsky website
 
-The rulex website.
-
-### License
-
-Dual-licensed under the MIT and Apache-2.0 license.
+The repository for the website has [moved here](https://github.com/rulex-rs/website).
